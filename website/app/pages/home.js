@@ -1,0 +1,14 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "../components/core/button.js";
+import { blogPosts, resolvePublicAsset } from "../lib/blog.js";
+import { useProjects } from "../lib/projects.js";
+import { site } from "../site.js";
+import { EmptyState } from "../components/empty-state.js";
+import { LoadingIndicator } from "../components/loading-indicator.js";
+export default function HomePage() {
+    const latest = blogPosts[0];
+    const { projects, loading } = useProjects();
+    return (_jsxs("div", { className: "page page-home", children: [_jsxs("section", { className: "hero reveal", children: [_jsx("p", { className: "eyebrow", children: "hello." }), _jsx("h1", { children: site.tagline }), _jsx("p", { className: "hero-copy", children: site.description }), _jsxs("div", { className: "hero-actions", children: [_jsx(Button, { variant: "primary", children: _jsx(Link, { to: "/projects", children: "projects" }) }), _jsx(Button, { variant: "quiet", children: _jsx(Link, { to: "/blog", children: "blog" }) })] })] }), _jsxs("section", { className: "section reveal", children: [_jsxs("div", { className: "section-head", children: [_jsxs("div", { children: [_jsx("p", { className: "eyebrow", children: "projects" }), _jsx("h2", { children: "some of my projects, scripts" })] }), _jsxs(Link, { className: "text-link", to: "/projects", children: ["all projects ", _jsx(ArrowUpRight, {})] })] }), loading ? (_jsx(LoadingIndicator, {})) : projects.length ? (_jsx("div", { className: "compact-list", children: projects.slice(0, 3).map((project) => (_jsxs("a", { className: "list-row", href: project.href, target: "_blank", rel: "noreferrer", children: [_jsxs("div", { children: [_jsx("strong", { children: project.name }), _jsx("p", { children: project.description })] }), project.tags.length ? (_jsx("span", { className: "muted", children: project.tags.join(" / ") })) : null] }, project.repo))) })) : (_jsx(EmptyState, { title: "nothing here yet", description: "i forgot to add the stuff sorry" }))] }), _jsxs("section", { className: "section reveal", children: [_jsx("div", { className: "section-head", children: _jsxs("div", { children: [_jsx("p", { className: "eyebrow", children: "blog" }), _jsx("h2", { children: "latest note" })] }) }), latest ? (_jsxs(Link, { className: "post-preview post-preview-with-thumb", to: `/blog/${latest.slug}`, children: [latest.thumbnail ? (_jsx("img", { className: "post-thumbnail", src: resolvePublicAsset(latest.thumbnail), alt: "", loading: "lazy" })) : null, _jsxs("div", { className: "post-row-copy", children: [_jsx("strong", { children: latest.title }), _jsx("p", { children: latest.description })] }), _jsx("time", { children: latest.date })] })) : (_jsx(EmptyState, { title: "no posts yet", description: "add a markdown file to src/content/blog." }))] })] }));
+}
